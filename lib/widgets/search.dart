@@ -1,28 +1,26 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_e_commerce/providers/products_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchBarCustom extends StatefulWidget {
-  const SearchBarCustom({
-    super.key,
-    required this.productTitles,
-    required this.onSearchSubmit,
-  });
-
-  final ValueChanged<String?> onSearchSubmit;
-  final List<String> productTitles;
+class SearchBarCustom extends ConsumerStatefulWidget {
+  const SearchBarCustom({super.key});
 
   @override
-  State<SearchBarCustom> createState() => _SearchBarCustomState();
+  ConsumerState<SearchBarCustom> createState() => _SearchBarCustomState();
 }
 
-class _SearchBarCustomState extends State<SearchBarCustom> {
+class _SearchBarCustomState extends ConsumerState<SearchBarCustom> {
   @override
   Widget build(BuildContext context) {
+
+    var allProducts = ref.watch(filterdProductsProvider(null));
+
     return SearchAnchor(
       shrinkWrap: true,
       isFullScreen: true,
       viewOnSubmitted: (String text) {
-        widget.onSearchSubmit(text);
+        ref.read(searchQueryNotifierProvider.notifier).updateQuery(text);
       },
       builder: (BuildContext context, SearchController controller) {
         return SearchBar(
@@ -34,13 +32,18 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
             controller.openView();
           },
           onChanged: (String text) {
+            ref.read(searchQueryNotifierProvider.notifier).updateQuery(text);
             controller.openView();
+          },
+          onSubmitted: (String text) {
+            ref.read(searchQueryNotifierProvider.notifier).updateQuery(text);
           },
           leading: const Icon(Icons.search),
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        return widget.productTitles
+        return allProducts
+            .map((toElement) => toElement.title)
             .where(
               (titles) =>
                   titles.toLowerCase().contains(controller.text.toLowerCase()),
@@ -49,7 +52,9 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
               return ListTile(
                 title: Text(item),
                 onTap: () {
-                  widget.onSearchSubmit(item);
+                  ref
+                      .read(searchQueryNotifierProvider.notifier)
+                      .updateQuery(item);
                   controller.closeView(item);
                 },
               );

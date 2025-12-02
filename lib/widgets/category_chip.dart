@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_e_commerce/providers/products_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CategoryChip extends StatefulWidget {
-  const CategoryChip({super.key, required this.onChipSelect});
-
-  final ValueChanged<String?> onChipSelect;
+class CategoryChip extends ConsumerStatefulWidget {
+  const CategoryChip({super.key});
 
   @override
-  State<CategoryChip> createState() => _CategoryChipState();
+  ConsumerState<CategoryChip> createState() => _CategoryChipState();
 }
 
-class _CategoryChipState extends State<CategoryChip> {
+class _CategoryChipState extends ConsumerState<CategoryChip> {
   int? _value = 0;
   List<String> chipsNames = [
     "All",
@@ -30,7 +30,9 @@ class _CategoryChipState extends State<CategoryChip> {
             label: Text(chipsNames[index]),
             selected: _value == index,
             onSelected: (bool selected) {
-              widget.onChipSelect(selected ? chipsNames[index] : null);
+              ref
+                  .read(categoryQueryNotifierProvider.notifier)
+                  .updateQuery(selected ? chipsNames[index] : null);
               setState(() {
                 _value = selected ? index : null;
               });
