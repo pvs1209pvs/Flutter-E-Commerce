@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/product.dart';
 import 'package:flutter_e_commerce/product_cart.dart';
 import 'package:flutter_e_commerce/product_cart_saved.dart';
+import 'package:flutter_e_commerce/product_with_quantity.dart';
 import 'package:flutter_e_commerce/shopping_cart_item.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,7 +17,7 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
-  List<Product> cart = [];
+  List<ProductWithQuantity> cart = [];
 
   void fetchCartItems() async {
     // get id of product in cart
@@ -25,8 +26,11 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
 
     // products from id
-    var productsInCart = ProductCart.fromJson(jsonDecode(response.body))
-        .products
+    var productsInCart = ProductCart.fromJson(
+      jsonDecode(response.body),
+    ).products;
+
+    var products = productsInCart
         .map(
           (productCartSaved) => http.get(
             Uri.parse(
@@ -36,12 +40,25 @@ class _ShoppingCartState extends State<ShoppingCart> {
         )
         .toList();
 
-    var multipleProducst = await Future.wait(productsInCart);
+    var multipleProducts = await Future.wait(products);
+
+    var temp = multipleProducts
+        .map((response) => Product.fromJson(jsonDecode(response.body)))
+        .toList();
+
+    List<ProductWithQuantity> x = [];
+
+    for (var i = 0; i < products.length; i++) {
+      x.add(
+        ProductWithQuantity(
+          product: temp[i],
+          quantity: productsInCart[i].quantity!,
+        ),
+      );
+    }
 
     setState(() {
-      cart = multipleProducst
-          .map((response) => Product.fromJson(jsonDecode(response.body)))
-          .toList();
+      cart = x;
     });
   }
 
