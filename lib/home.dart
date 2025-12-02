@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_e_commerce/bottom_nav.dart';
 import 'package:flutter_e_commerce/category_chip.dart';
 import 'package:flutter_e_commerce/product.dart';
 import 'package:flutter_e_commerce/product_list.dart';
-import 'package:flutter_e_commerce/rating.dart';
 import 'package:flutter_e_commerce/search.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,22 +24,7 @@ class _HomeState extends State<Home> {
     var body = jsonDecode(response.body) as List<dynamic>;
 
     setState(() {
-      var fetchedProducts = body
-          .map(
-            (item) => Product(
-              id: item['id'],
-              title: item['title'],
-              price: item['price'],
-              desc: item['description'],
-              category: item['category'],
-              imageUrl: item['image'],
-              rating: Rating(
-                rate: item['rating']['rate'],
-                count: item['rating']['count'],
-              ),
-            ),
-          )
-          .toList();
+      var fetchedProducts = body.map((item) => Product.fromJson(item)).toList();
       products = List.from(fetchedProducts);
       filteredList = List.from(fetchedProducts);
     });
@@ -78,7 +60,7 @@ class _HomeState extends State<Home> {
                       )
                       .toList();
                 });
-        
+
                 for (var item in filteredList) {
                   log("search bar ${item.title}");
                 }

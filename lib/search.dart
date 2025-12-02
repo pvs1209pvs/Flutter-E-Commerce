@@ -21,7 +21,7 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
   Widget build(BuildContext context) {
     return SearchAnchor(
       shrinkWrap: true,
-      isFullScreen: false,
+      isFullScreen: true,
       viewOnSubmitted: (String text) {
         widget.onSearchSubmit(text);
       },
@@ -35,11 +35,7 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
             controller.openView();
           },
           onChanged: (String text) {
-            // controller.openView();
-          },
-          onSubmitted: (String text) {
-            controller.closeView(null);
-            FocusScope.of(context).unfocus();
+            controller.openView();
           },
           leading: const Icon(Icons.search),
         );
@@ -47,8 +43,8 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
       suggestionsBuilder: (BuildContext context, SearchController controller) {
         return widget.productTitles
             .where(
-              (test) =>
-                  test.toLowerCase().contains(controller.text.toLowerCase()),
+              (titles) =>
+                  titles.toLowerCase().contains(controller.text.toLowerCase()),
             )
             .map((item) {
               return ListTile(

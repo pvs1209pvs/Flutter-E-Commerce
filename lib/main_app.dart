@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_e_commerce/bottom_nav.dart';
 import 'package:flutter_e_commerce/home.dart';
 import 'package:flutter_e_commerce/shopping_cart.dart';
@@ -14,7 +13,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int crntTab = 0;
   final List<Widget> tabs = [Home(), ShoppingCart()];
-
 
   @override
   Widget build(BuildContext context) {
