@@ -60,22 +60,23 @@ class _HomeState extends State<Home> {
       body: Column(
         children: <Widget>[
           SearchBarCustom(
+            productTitles: products
+                .map((toElement) => toElement.title)
+                .toList(),
             onSearchSubmit: (String? value) {
               log("onSearchSubmit callback result $value");
               setState(() {
                 filteredList = products
-                  .where(
-                    (test) =>
-                        test.title.toLowerCase().contains(value.toString()),
-                  )
-                  .toList();
+                    .where(
+                      (test) =>
+                          test.title.toLowerCase().contains(value.toString().toLowerCase()),
+                    )
+                    .toList();
               });
-              ;
+
               for (var item in filteredList) {
                 log("search bar ${item.title}");
               }
-
-              log("on search submit in home: $value");
             },
           ),
           CategoryChip(

@@ -3,9 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 class SearchBarCustom extends StatefulWidget {
-  const SearchBarCustom({super.key, required this.onSearchSubmit});
+  const SearchBarCustom({
+    super.key,
+    required this.productTitles,
+    required this.onSearchSubmit,
+  });
 
   final ValueChanged<String?> onSearchSubmit;
+  final List<String> productTitles;
 
   @override
   State<SearchBarCustom> createState() => _SearchBarCustomState();
@@ -40,23 +45,20 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        // return <Widget>[];
-        return List<ListTile>.generate(2, (int index) {
-          final String item = 'gold';
-          return ListTile(
-            title: Text(item),
-            onTap: () {
-              log("Suggestions on tap: $item");
-              widget.onSearchSubmit(item);
-              controller.closeView(item);
-              FocusScope.of(context).unfocus();
-
-              // setState(() {
-              // controller.closeView(item);
-              // });
-            },
-          );
-        });
+        return widget.productTitles
+            .where(
+              (test) =>
+                  test.toLowerCase().contains(controller.text.toLowerCase()),
+            )
+            .map((item) {
+              return ListTile(
+                title: Text(item),
+                onTap: () {
+                  widget.onSearchSubmit(item);
+                  controller.closeView(item);
+                },
+              );
+            });
       },
     );
   }
