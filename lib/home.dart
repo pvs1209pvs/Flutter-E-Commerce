@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_e_commerce/bottom_nav.dart';
 import 'package:flutter_e_commerce/category_chip.dart';
 import 'package:flutter_e_commerce/product.dart';
 import 'package:flutter_e_commerce/product_list.dart';
@@ -68,8 +69,9 @@ class _HomeState extends State<Home> {
               setState(() {
                 filteredList = products
                     .where(
-                      (test) =>
-                          test.title.toLowerCase().contains(value.toString().toLowerCase()),
+                      (test) => test.title.toLowerCase().contains(
+                        value.toString().toLowerCase(),
+                      ),
                     )
                     .toList();
               });

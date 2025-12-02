@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_e_commerce/home.dart';
+import 'package:flutter_e_commerce/main_app.dart';
 
 void main() {
-  runApp(MaterialApp(home:Home()));
+  runApp(MaterialApp(home:MainScreen()));
 }
