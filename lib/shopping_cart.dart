@@ -81,16 +81,40 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Cart")),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: cart.length,
-              itemBuilder: (context, index) {
-                return ShoppingCartItem(product: cart[index]);
-              },
-            ),
+      body: ListView(
+        children: <Widget>[
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: cart.length,
+            itemBuilder: (context, index) {
+              return ShoppingCartItem(product: cart[index]);
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                  "Subtotal:",
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                  "\$${subtotal()}",
+                ),
+              ),
+            ],
           ),
         ],
       ),
