@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/product.dart';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
 class ProductDetailsCard extends StatefulWidget {
@@ -29,42 +28,88 @@ class _ProductDetailsCardState extends State<ProductDetailsCard> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Card(
-        child: Column(
-          children: <Widget>[
-            Image.network(widget.product.imageUrl),
-            Text(widget.product.title),
-            Text(widget.product.price.toString()),
-            Text(widget.product.desc),
-            Row(
-              children: <Widget>[
-                Text("Qty:"),
-                TextButton(
+      padding: EdgeInsets.all(8),
+      child: Column(
+        spacing: 16,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Image.network(widget.product.imageUrl),
+          Text(
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black87,
+              fontWeight: FontWeight.w600,
+            ),
+            widget.product.title,
+          ),
+          Text(
+            style: TextStyle(fontSize: 24, color: Colors.black87),
+            "\$${widget.product.price}",
+          ),
+          Text(widget.product.desc),
+          Row(
+            spacing: 16,
+            children: <Widget>[
+              Text(
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+                "Qty:",
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.purple[100],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: IconButton(
                   onPressed: () => setState(() {
                     qty--;
                   }),
-                  child: Text("-"),
+                  icon: Icon(Icons.remove),
                 ),
-                Text("$qty"),
-                TextButton(
+              ),
+              Text(
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+                "$qty",
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.purple[100],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: IconButton(
                   onPressed: () => setState(() {
                     qty++;
                   }),
-                  child: Text("+"),
+                  icon: Icon(Icons.add),
                 ),
-              ],
+              ),
+            ],
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.purple,
+              foregroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
-            TextButton(
-              onPressed: () async {
-                final response = await addToCart(widget.product);
-                log(
-                  "Adding to cart ${widget.product.id} status ${response.statusCode} ${response.body}",
-                );
-              },
-              child: Text("Add to cart"),
-            ),
-          ],
-        ),
+            onPressed: () async {
+              final response = await addToCart(widget.product);
+              log(
+                "Adding to cart ${widget.product.id} status ${response.statusCode} ${response.body}",
+              );
+            },
+            child: Text("Add to cart"),
+          ),
+        ],
       ),
     );
   }

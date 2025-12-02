@@ -11,20 +11,33 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, "/details", arguments: product),
       child: Card(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: Center(
-                child: Image.network(product.imageUrl, width: 100, height: 100),
+        child: Container(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Center(
+                  child: Image.network(product.imageUrl, width: 100, height: 100),
+                ),
               ),
-            ),
-            Text(style: TextStyle(fontSize: 16), product.title),
-            Text(
-              style: TextStyle(fontSize: 16),
-              "\$${product.price.toString()}",
-            ),
-          ],
+              Text(
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+                product.title,
+              ),
+              Text(
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w600,
+                ),
+                "\$${product.price.toString()}",
+              ),
+            ],
+          ),
         ),
       ),
     );

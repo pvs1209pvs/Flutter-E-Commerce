@@ -18,7 +18,7 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-        BottomNavigationBarItem(icon: Icon(Icons.ac_unit), label: "Cart"),
+        BottomNavigationBarItem(icon: Icon(Icons.shop), label: "Cart"),
       ],
       currentIndex: selectWidget,
       selectedItemColor: Colors.purple[800],

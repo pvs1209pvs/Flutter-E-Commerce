@@ -62,6 +62,15 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
   }
 
+  double subtotal() {
+    double total = 0.0;
+
+    for (final item in cart) {
+      total += item.quantity * item.product.price;
+    }
+    return total;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -72,11 +81,18 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Cart")),
-      body: ListView.builder(
-        itemCount: cart.length,
-        itemBuilder: (context, index) {
-          return ShoppingCartItem(product: cart[index]);
-        },
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: cart.length,
+              itemBuilder: (context, index) {
+                return ShoppingCartItem(product: cart[index]);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
