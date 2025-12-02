@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_e_commerce/category_chip.dart';
-import 'package:flutter_e_commerce/product.dart';
-import 'package:flutter_e_commerce/product_list.dart';
-import 'package:flutter_e_commerce/search.dart';
+import 'package:flutter_e_commerce/widgets/category_chip.dart';
+import 'package:flutter_e_commerce/models/product.dart';
+import 'package:flutter_e_commerce/widgets/product_list.dart';
+import 'package:flutter_e_commerce/widgets/search.dart';
 import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
@@ -50,7 +50,6 @@ class _HomeState extends State<Home> {
                   .map((toElement) => toElement.title)
                   .toList(),
               onSearchSubmit: (String? value) {
-                log("onSearchSubmit callback result $value");
                 setState(() {
                   filteredList = products
                       .where(
@@ -60,10 +59,6 @@ class _HomeState extends State<Home> {
                       )
                       .toList();
                 });
-
-                for (var item in filteredList) {
-                  log("search bar ${item.title}");
-                }
               },
             ),
             CategoryChip(

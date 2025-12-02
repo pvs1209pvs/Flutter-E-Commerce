@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter_e_commerce/product_cart_saved.dart';
+import 'package:flutter_e_commerce/models/product_cart_saved.dart';
 
 class ProductCart {
   final int id;

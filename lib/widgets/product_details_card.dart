@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_e_commerce/product.dart';
+import 'package:flutter_e_commerce/models/product.dart';
 import 'package:http/http.dart' as http;
 
 class ProductDetailsCard extends StatefulWidget {

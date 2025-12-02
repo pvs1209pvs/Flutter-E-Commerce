@@ -1,9 +1,7 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_e_commerce/product.dart';
-import 'package:flutter_e_commerce/product_card.dart';
+import 'package:flutter_e_commerce/models/product.dart';
+import 'package:flutter_e_commerce/widgets/product_card.dart';
 
 class ProductsList extends StatelessWidget {
   
@@ -22,13 +20,5 @@ class ProductsList extends StatelessWidget {
       ),
     );
 
-    return Expanded(
-      child: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          return ProductCard(product: products[index]);
-        },
-      ),
-    );
   }
 }

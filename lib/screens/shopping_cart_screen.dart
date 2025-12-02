@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_e_commerce/product.dart';
-import 'package:flutter_e_commerce/product_cart.dart';
-import 'package:flutter_e_commerce/product_cart_saved.dart';
-import 'package:flutter_e_commerce/product_with_quantity.dart';
-import 'package:flutter_e_commerce/shopping_cart_item.dart';
+import 'package:flutter_e_commerce/models/product.dart';
+import 'package:flutter_e_commerce/models/product_cart.dart';
+import 'package:flutter_e_commerce/models/product_cart_saved.dart';
+import 'package:flutter_e_commerce/models/product_with_quantity.dart';
+import 'package:flutter_e_commerce/widgets/shopping_cart_item.dart';
 import 'package:http/http.dart' as http;
 
 class ShoppingCart extends StatefulWidget {
@@ -40,16 +40,14 @@ class _ShoppingCartState extends State<ShoppingCart> {
         )
         .toList();
 
-    var multipleProducts = await Future.wait(products);
+    var temp = (await Future.wait(
+      products,
+    )).map((response) => Product.fromJson(jsonDecode(response.body))).toList();
 
-    var temp = multipleProducts
-        .map((response) => Product.fromJson(jsonDecode(response.body)))
-        .toList();
-
-    List<ProductWithQuantity> x = [];
+    List<ProductWithQuantity> prodsWithQuantity = [];
 
     for (var i = 0; i < products.length; i++) {
-      x.add(
+      prodsWithQuantity.add(
         ProductWithQuantity(
           product: temp[i],
           quantity: productsInCart[i].quantity!,
@@ -58,7 +56,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     }
 
     setState(() {
-      cart = x;
+      cart = prodsWithQuantity;
     });
   }
 

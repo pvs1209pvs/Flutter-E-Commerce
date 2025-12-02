@@ -1,4 +1,4 @@
-import 'package:flutter_e_commerce/rating.dart';
+import 'package:flutter_e_commerce/models/rating.dart';
 
 class Product {
   int id;

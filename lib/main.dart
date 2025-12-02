@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_e_commerce/main_app.dart';
-import 'package:flutter_e_commerce/product.dart';
-import 'package:flutter_e_commerce/product_details_screen.dart';
+import 'package:flutter_e_commerce/models/product.dart';
+import 'package:flutter_e_commerce/screens/product_details_screen.dart';
 
 void main() {
   runApp(
@@ -15,6 +15,7 @@ void main() {
                 ProductDetailsScreen(product: settings.arguments as Product),
           );
         }
+        return null;
       },
     ),
   );

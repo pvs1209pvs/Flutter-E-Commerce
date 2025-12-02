@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_e_commerce/product.dart';
-import 'package:flutter_e_commerce/product_cart_saved.dart';
-import 'package:flutter_e_commerce/product_with_quantity.dart';
+import 'package:flutter_e_commerce/models/product.dart';
+import 'package:flutter_e_commerce/models/product_cart_saved.dart';
+import 'package:flutter_e_commerce/models/product_with_quantity.dart';
 
 class ShoppingCartItem extends StatefulWidget {
   final ProductWithQuantity product;

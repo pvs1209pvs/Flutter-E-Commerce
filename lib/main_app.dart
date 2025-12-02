@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_e_commerce/bottom_nav.dart';
-import 'package:flutter_e_commerce/home.dart';
-import 'package:flutter_e_commerce/shopping_cart.dart';
+import 'package:flutter_e_commerce/screens/bottom_nav.dart';
+import 'package:flutter_e_commerce/screens/home_screen.dart';
+import 'package:flutter_e_commerce/screens/shopping_cart_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
