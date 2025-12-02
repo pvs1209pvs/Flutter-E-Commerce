@@ -8,18 +8,24 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Center(
-              child: Image.network(product.imageUrl, width: 100, height: 100),
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, "/details", arguments: product),
+      child: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: Center(
+                child: Image.network(product.imageUrl, width: 100, height: 100),
+              ),
             ),
-          ),
-          Text(style: TextStyle(fontSize: 16), product.title),
-          Text(style: TextStyle(fontSize: 16), "\$${product.price.toString()}"),
-        ],
+            Text(style: TextStyle(fontSize: 16), product.title),
+            Text(
+              style: TextStyle(fontSize: 16),
+              "\$${product.price.toString()}",
+            ),
+          ],
+        ),
       ),
     );
   }
