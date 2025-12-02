@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/product.dart';
-import 'package:flutter_e_commerce/product_card.dart';
 import 'package:flutter_e_commerce/product_cart.dart';
 import 'package:flutter_e_commerce/product_cart_saved.dart';
 import 'package:flutter_e_commerce/shopping_cart_item.dart';
@@ -20,15 +19,19 @@ class _ShoppingCartState extends State<ShoppingCart> {
   List<Product> cart = [];
 
   void fetchCartItems() async {
+    // get id of product in cart
     http.Response response = await http.get(
       Uri.parse("https://fakestoreapi.com/carts/1"),
     );
 
+    // products from id
     var productsInCart = ProductCart.fromJson(jsonDecode(response.body))
         .products
         .map(
-          (item) => http.get(
-            Uri.parse("https://fakestoreapi.com/products/${item.productId}"),
+          (productCartSaved) => http.get(
+            Uri.parse(
+              "https://fakestoreapi.com/products/${productCartSaved.productId}",
+            ),
           ),
         )
         .toList();
