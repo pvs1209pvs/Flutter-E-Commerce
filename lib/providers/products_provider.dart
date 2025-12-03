@@ -78,21 +78,3 @@ final filterProd = Provider<AsyncValue<List<Product>>>((ref) {
   });
   return filteredProducts;
 });
-
-final filterdProductsProvider = Provider.family<List<Product>, String?>((
-  ref,
-  searchText,
-) {
-  final provider = ref.watch(productProvider);
-  final state = provider.whenData((cb) => cb).requireValue;
-
-  if (searchText == null) {
-    return state;
-  } else {
-    return state
-        .where(
-          (test) => test.title.toLowerCase().contains(searchText.toLowerCase()),
-        )
-        .toList();
-  }
-});
