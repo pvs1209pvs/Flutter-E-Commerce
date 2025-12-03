@@ -23,12 +23,12 @@ class _HomeState extends ConsumerState<Home> {
     AsyncValue<List<Product>> allProducts = ref.watch(filterProd);
 
     return allProducts.when(
-      loading: () => CircularProgressIndicator(),
+      loading: () => const CircularProgressIndicator(),
       error: (e, _) => Text(e.toString()),
       data: (data) => Scaffold(
-        appBar: AppBar(title: Text("ShopEase")),
+        appBar: AppBar(title: const Text("ShopEase")),
         body: Container(
-          margin: EdgeInsets.all(8),
+          margin: const EdgeInsets.all(8),
           child: Column(
             spacing: 8,
             children: <Widget>[

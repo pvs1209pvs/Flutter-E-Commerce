@@ -13,7 +13,7 @@ class ProductsList extends StatelessWidget {
     return Expanded(
       child: GridView.builder(
         cacheExtent: MediaQuery.of(context).size.height * 1,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
         ),
         itemCount: products.length,

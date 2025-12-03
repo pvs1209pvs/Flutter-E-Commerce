@@ -93,7 +93,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
             children: [
               Expanded(
                 child: Text(
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
@@ -104,7 +104,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
               Expanded(
                 child: Text(
                   textAlign: TextAlign.end,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,

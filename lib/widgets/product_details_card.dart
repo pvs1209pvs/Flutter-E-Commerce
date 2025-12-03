@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/models/product.dart';
 import 'package:http/http.dart' as http;
@@ -28,14 +29,18 @@ class _ProductDetailsCardState extends State<ProductDetailsCard> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         spacing: 16,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Image.network(widget.product.imageUrl),
+          CachedNetworkImage(
+            imageUrl: widget.product.imageUrl,
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
           Text(
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               color: Colors.black87,
               fontWeight: FontWeight.w600,
@@ -43,14 +48,14 @@ class _ProductDetailsCardState extends State<ProductDetailsCard> {
             widget.product.title,
           ),
           Text(
-            style: TextStyle(fontSize: 24, color: Colors.black87),
+            style: const TextStyle(fontSize: 24, color: Colors.black87),
             "\$${widget.product.price}",
           ),
           Text(widget.product.desc),
           Row(
             spacing: 16,
             children: <Widget>[
-              Text(
+              const Text(
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -67,11 +72,11 @@ class _ProductDetailsCardState extends State<ProductDetailsCard> {
                   onPressed: () => setState(() {
                     qty--;
                   }),
-                  icon: Icon(Icons.remove),
+                  icon: const Icon(Icons.remove),
                 ),
               ),
               Text(
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.black87,
@@ -96,7 +101,7 @@ class _ProductDetailsCardState extends State<ProductDetailsCard> {
             style: TextButton.styleFrom(
               backgroundColor: Colors.purple,
               foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -107,7 +112,7 @@ class _ProductDetailsCardState extends State<ProductDetailsCard> {
                 "Adding to cart ${widget.product.id} status ${response.statusCode} ${response.body}",
               );
             },
-            child: Text("Add to cart"),
+            child: const Text("Add to cart"),
           ),
         ],
       ),

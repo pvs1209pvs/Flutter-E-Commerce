@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/models/product.dart';
 import 'package:flutter_e_commerce/models/product_cart_saved.dart';
@@ -27,10 +28,10 @@ class _ShoppingCartItemState extends State<ShoppingCartItem> {
       child: Row(
         spacing: 8,
         children: <Widget>[
-          Image.network(
-            widget.product.product.imageUrl,
-            height: 100,
-            width: 100,
+          CachedNetworkImage(
+            imageUrl: widget.product.product.imageUrl,
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           Expanded(
             child: Column(
@@ -39,7 +40,7 @@ class _ShoppingCartItemState extends State<ShoppingCartItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black87,
                     fontWeight: FontWeight.w600,
@@ -47,11 +48,11 @@ class _ShoppingCartItemState extends State<ShoppingCartItem> {
                   widget.product.product.title,
                 ),
                 Text(
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                   "\$${widget.product.product.price*qty}",
                 ),
                 Container(
-                  margin: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
                   child: Row(
                     spacing: 8,
                     children: <Widget>[
@@ -64,11 +65,11 @@ class _ShoppingCartItemState extends State<ShoppingCartItem> {
                           onPressed: () => setState(() {
                             qty--;
                           }),
-                          icon: Icon(Icons.remove),
+                          icon: const Icon(Icons.remove),
                         ),
                       ),
                       Text(
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: Colors.black87,
@@ -84,7 +85,7 @@ class _ShoppingCartItemState extends State<ShoppingCartItem> {
                           onPressed: () => setState(() {
                             qty++;
                           }),
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add),
                         ),
                       ),
                     ],
