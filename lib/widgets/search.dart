@@ -45,6 +45,7 @@ class _SearchBarCustomState extends ConsumerState<SearchBarCustom> {
         },
         suggestionsBuilder:
             (BuildContext context, SearchController controller) {
+              
               return data
                   .map((product) => product.title)
                   .where(

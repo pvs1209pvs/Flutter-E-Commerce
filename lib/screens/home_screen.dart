@@ -20,42 +20,15 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
-    AsyncValue<List<Product>> allProducts = ref.watch(filterProd);
-
-    return allProducts.when(
-      loading: () => const CircularProgressIndicator(),
-      error: (e, _) => Text(e.toString()),
-      data: (data) => Scaffold(
-        appBar: AppBar(title: const Text("ShopEase")),
-        body: Container(
-          margin: const EdgeInsets.all(8),
-          child: Column(
-            spacing: 8,
-            children: <Widget>[
-              SearchBarCustom(),
-              CategoryChip(),
-              ProductsList(products: data),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(title: const Text("ShopEase")),
+      body: Container(
+        margin: const EdgeInsets.all(8),
+        child: Column(
+          spacing: 8,
+          children: <Widget>[ CategoryChip(), ProductsList()],
         ),
       ),
     );
   }
 }
-
-
-        // if (value == null) {
-                  //   setState(() {
-                  //     filteredList = data;
-                  //   });
-                  // } else {
-                  //   setState(() {
-                  //     filteredList = data
-                  //         .where(
-                  //           (test) =>
-                  //               test.category == value.toLowerCase() ||
-                  //               value == "All",
-                  //         )
-                  //         .toList();
-                  //   });
-                  // }
