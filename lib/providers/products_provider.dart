@@ -44,7 +44,11 @@ class ProductNotifier extends AsyncNotifier<List<Product>> {
     http.Response response = await http.get(uri);
     var body = jsonDecode(response.body) as List<dynamic>;
     var result = body.map((item) => Product.fromJson(item)).toList();
-    return result;
+    List<Product> l = [];
+    l.addAll(result);
+    l.addAll(result);
+    l.addAll(result);
+    return l;
   }
 }
 

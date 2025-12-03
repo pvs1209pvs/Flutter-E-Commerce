@@ -17,24 +17,26 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                child: Center(
-                  child: Image.network(product.imageUrl, width: 100, height: 100),
+                flex: 80,
+                child: Center(child: Image.network(product.imageUrl)),
+              ),
+              Expanded(
+                flex: 10,
+                child: Text(
+                  style: TextStyle(fontSize: 18, color: Colors.black87),
+                  product.title,
                 ),
               ),
-              Text(
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black87,
+              Expanded(
+                flex: 10,
+                child: Text(
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  "\$${product.price}",
                 ),
-                product.title,
-              ),
-              Text(
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w600,
-                ),
-                "\$${product.price.toString()}",
               ),
             ],
           ),
