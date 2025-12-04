@@ -49,14 +49,16 @@ class ShoppingCartNotifier extends AsyncNotifier<List<ProductWithQuantity>> {
   }
 
   void updateQuantity(int id, int q) {
-    state = state.whenData((items) {
-      return items.map((item) {
-        if (item.product.id == id) {
-          return ProductWithQuantity(quantity: q, product: item.product);
-        }
-        return item;
-      }).toList();
-    });
+    if (q > 0) {
+      state = state.whenData((items) {
+        return items.map((item) {
+          if (item.product.id == id) {
+            return ProductWithQuantity(quantity: q, product: item.product);
+          }
+          return item;
+        }).toList();
+      });
+    }
   }
 }
 
