@@ -101,6 +101,13 @@ class _ProductDetailsCardState extends ConsumerState<ProductDetailsCard> {
               ),
             ),
             onPressed: () async {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  duration: Duration(seconds: 2),
+                  content: Text("${widget.product.title} added to cart"),
+                ),
+              );
+
               ref
                   .watch(shoppingCartNotifierProvider.notifier)
                   .addToCart(widget.product, qty);

@@ -47,14 +47,7 @@ class ProductNotifier extends AsyncNotifier<List<Product>> {
     var body = jsonDecode(response.body) as List<dynamic>;
     var result = body.map((item) => Product.fromJson(item)).toList();
 
-    List<Product> l = [];
-    l.addAll(result);
-
-    for(final Product item in l){
-      log("${item.title} ${item.category}");
-    }
-
-    return l;
+    return List.from([...result, ...result, ...result, ...result]);
   }
 }
 
@@ -71,8 +64,6 @@ final filterProd = Provider<AsyncValue<List<Product>>>((ref) {
   return ref.watch(productProvider).whenData((cb) {
     var result = cb;
 
-    log("products length ${result.length}");
-
     if (searchQuery != null && searchQuery.isNotEmpty) {
       result = result
           .where(
@@ -84,8 +75,9 @@ final filterProd = Provider<AsyncValue<List<Product>>>((ref) {
     if (categoryQuery != null && categoryQuery != "All") {
       result = result
           .where(
-            (p) =>
-                p.category.toLowerCase().startsWith(categoryQuery.toLowerCase()),
+            (p) => p.category.toLowerCase().startsWith(
+              categoryQuery.toLowerCase(),
+            ),
           )
           .toList();
     }

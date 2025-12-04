@@ -12,14 +12,25 @@ class MySeach extends ConsumerStatefulWidget {
 }
 
 class _MySeachState extends ConsumerState<MySeach> {
+  final textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: textController,
       onChanged: (value) => {
         ref.read(searchQueryNotifierProvider.notifier).updateQuery(value),
       },
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.search),
+        suffixIcon: GestureDetector(
+          onTap: () {
+            textController.clear();
+            ref.read(searchQueryNotifierProvider.notifier).updateQuery('');
+            FocusScope.of(context).unfocus();
+          },
+          child: Icon(Icons.close),
+        ),
         border: OutlineInputBorder(),
         hintText: "Search for products",
       ),
