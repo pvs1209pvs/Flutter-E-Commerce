@@ -7,46 +7,13 @@ import 'package:flutter_e_commerce/models/rating.dart';
 import 'package:flutter_e_commerce/providers/shoopping_cart_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// class ShoppingCartItem extends StatefulWidget {
-//   final ProductWithQuantity product;
-
-//   const ShoppingCartItem({super.key, required this.product});
-
-//   @override
-//   State<ShoppingCartItem> createState() => _ShoppingCartItemState();
-// }
-
 class ShoppingCartItem extends ConsumerWidget {
   final ProductWithQuantity product;
 
   const ShoppingCartItem({super.key, required this.product});
 
-  // late ProductWithQuantity productState;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   productState = ProductWithQuantity(
-  //     quantity: widget.product.quantity,
-  //     product: Product(
-  //       id: widget.product.product.id,
-  //       title: widget.product.product.title,
-  //       price: widget.product.product.price,
-  //       desc: widget.product.product.desc,
-  //       category: widget.product.product.category,
-  //       imageUrl: widget.product.product.imageUrl,
-  //       rating: Rating(
-  //         rate: widget.product.product.rating.rate,
-  //         count: widget.product.product.rating.count,
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final shoppingProv = ref.watch(shoppingCartNotifierProvider);
-
     return Card(
       child: Row(
         spacing: 8,
