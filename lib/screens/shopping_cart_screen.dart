@@ -33,51 +33,50 @@ class _ShoppingCartState extends ConsumerState<ShoppingCart> {
     var cartTotal = ref.watch(cartTotalProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Cart")),
-      body: ListView(
-        children: <Widget>[
-          cart.when(
-            data: (data) => data.isEmpty
-                ? const Center(child: Text("Your shopping cart is empty"))
-                : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return ShoppingCartItem(product: data[index]);
-                    },
-                  ),
-            error: (error, stackStack) => Text(error.toString()),
-            loading: () => CircularProgressIndicator(),
-          ),
-          if (cartTotal > 0)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      appBar: AppBar(title: const Text("Cart")),
+      body: cart.when(
+        data: (data) {
+          if (data.isEmpty) {
+            return const Center(child: Text("Your shopping cart is empty"));
+          }
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(
-                  child: Text(
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
-                    "Subtotal:",
+                ...data.map((product) => ShoppingCartItem(product: product)),
+                if (cartTotal > 0)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Subtotal:",
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      Text(
+                        "\$$cartTotal",
+                        textAlign: TextAlign.end,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Expanded(
-                  child: Text(
-                    textAlign: TextAlign.end,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
-                    "\$$cartTotal",
-                  ),
-                ),
               ],
             ),
-        ],
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) =>
+            const Center(child: Text("Something went wrong, please try again")),
       ),
     );
+    ;
   }
 }
