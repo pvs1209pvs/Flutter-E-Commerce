@@ -48,6 +48,7 @@ class ProductNotifier extends AsyncNotifier<List<Product>> {
     l.addAll(result);
     l.addAll(result);
     l.addAll(result);
+    l[0].title = "sfdsfdssfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdaffffffffffffffffffffffffffsdafffffffffffffffffffffffff";
     return l;
   }
 }
