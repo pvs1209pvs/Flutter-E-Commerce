@@ -51,11 +51,16 @@ class ShoppingCartNotifier extends AsyncNotifier<List<ProductWithQuantity>> {
 
   void addToCart(Product product, int qty) async {
     log("Adding ${product.title} to cart with $qty quantity");
-    http.post(
+    http.Response response = await http.post(
       Uri.parse("https://fakestoreapi.com/carts"),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(<String, dynamic>{"product": product, "qty": "$qty"}),
     );
+    // Mock add to the backend
+    state = AsyncData([
+      ...state.value!,
+      ProductWithQuantity(quantity: qty, product: product),
+    ]);
   }
 
   void updateQuantity(int id, int q) {
