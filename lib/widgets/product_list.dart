@@ -49,7 +49,12 @@ class _ProductsListState extends ConsumerState<ProductsList> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: SizedBox(
                   height: constrains.maxHeight,
-                  child: Center(child: Text(error.toString())),
+                  child: Center(
+                    child: Text(
+                      style: TextStyle(fontSize: 24, color: Colors.black87),
+                      "Check your internet connection and please try again",
+                    ),
+                  ),
                 ),
               ),
               loading: () => SingleChildScrollView(
