@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_e_commerce/screens/bottom_nav.dart';
 import 'package:flutter_e_commerce/screens/home_screen.dart';
 import 'package:flutter_e_commerce/screens/shopping_cart_screen.dart';
@@ -13,6 +14,12 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int crntTab = 0;
   final List<Widget> tabs = [Home(), ShoppingCart()];
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  }
 
   @override
   Widget build(BuildContext context) {
