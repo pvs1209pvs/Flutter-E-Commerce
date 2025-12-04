@@ -19,7 +19,6 @@ class ShoppingCart extends ConsumerStatefulWidget {
 }
 
 class _ShoppingCartState extends ConsumerState<ShoppingCart> {
-
   @override
   void initState() {
     super.initState();
@@ -27,7 +26,6 @@ class _ShoppingCartState extends ConsumerState<ShoppingCart> {
 
   @override
   Widget build(BuildContext context) {
-    
     AsyncValue<List<ProductWithQuantity>> cart = ref.watch(
       shoppingCartNotifierProvider,
     );
@@ -39,42 +37,45 @@ class _ShoppingCartState extends ConsumerState<ShoppingCart> {
       body: ListView(
         children: <Widget>[
           cart.when(
-            data: (data) => ListView.builder(
-              shrinkWrap: true,
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                return ShoppingCartItem(product: data[index]);
-              },
-            ),
+            data: (data) => data.isEmpty
+                ? const Center(child: Text("Your shopping cart is empty"))
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return ShoppingCartItem(product: data[index]);
+                    },
+                  ),
             error: (error, stackStack) => Text(error.toString()),
             loading: () => CircularProgressIndicator(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+          if (cartTotal > 0)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                    "Subtotal:",
                   ),
-                  "Subtotal:",
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  textAlign: TextAlign.end,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                Expanded(
+                  child: Text(
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                    "\$$cartTotal",
                   ),
-                  "\$$cartTotal",
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
         ],
       ),
     );

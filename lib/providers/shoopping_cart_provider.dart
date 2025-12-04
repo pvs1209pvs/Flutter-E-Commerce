@@ -49,7 +49,7 @@ class ShoppingCartNotifier extends AsyncNotifier<List<ProductWithQuantity>> {
     return prodsWithQuantity;
   }
 
-  void addToCart(Product product, int qty) async{
+  void addToCart(Product product, int qty) async {
     log("Adding ${product.title} to cart with $qty quantity");
     http.post(
       Uri.parse("https://fakestoreapi.com/carts"),
@@ -59,16 +59,17 @@ class ShoppingCartNotifier extends AsyncNotifier<List<ProductWithQuantity>> {
   }
 
   void updateQuantity(int id, int q) {
-    if (q > 0) {
-      state = state.whenData((items) {
-        return items.map((item) {
-          if (item.product.id == id) {
-            return ProductWithQuantity(quantity: q, product: item.product);
-          }
-          return item;
-        }).toList();
-      });
-    }
+    state = state.whenData((items) {
+      return items
+          .map((item) {
+            if (item.product.id == id) {
+              return ProductWithQuantity(quantity: q, product: item.product);
+            }
+            return item;
+          })
+          .where((test) => test.quantity > 0)
+          .toList();
+    });
   }
 }
 
