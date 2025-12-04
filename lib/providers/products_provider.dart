@@ -47,7 +47,9 @@ class ProductNotifier extends AsyncNotifier<List<Product>> {
     var body = jsonDecode(response.body) as List<dynamic>;
     var result = body.map((item) => Product.fromJson(item)).toList();
 
-    return List.from([...result, ...result, ...result, ...result]);
+    // To increase the number of products for testing caching and lazy loading.
+
+    return result;
   }
 }
 
