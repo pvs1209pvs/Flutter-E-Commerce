@@ -1,30 +1,25 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/models/product.dart';
+import 'package:flutter_e_commerce/providers/shoopping_cart_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-class ProductDetailsCard extends StatefulWidget {
+class ProductDetailsCard extends ConsumerStatefulWidget {
   final Product product;
 
   const ProductDetailsCard({super.key, required this.product});
 
   @override
-  State<ProductDetailsCard> createState() => _ProductDetailsCardState();
+  ConsumerState<ProductDetailsCard> createState() => _ProductDetailsCardState();
 }
 
-class _ProductDetailsCardState extends State<ProductDetailsCard> {
-  int qty = 1;
+class _ProductDetailsCardState extends ConsumerState<ProductDetailsCard> {
 
-  Future<http.Response> addToCart(Product product) {
-    return http.post(
-      Uri.parse("https://fakestoreapi.com/carts"),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(<String, dynamic>{"product": product, "qty": "$qty"}),
-    );
-  }
+  int qty = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +65,7 @@ class _ProductDetailsCardState extends State<ProductDetailsCard> {
                 ),
                 child: IconButton(
                   onPressed: () => setState(() {
-                    qty--;
+                    qty = max(1, qty-1);
                   }),
                   icon: const Icon(Icons.remove),
                 ),
@@ -107,10 +102,13 @@ class _ProductDetailsCardState extends State<ProductDetailsCard> {
               ),
             ),
             onPressed: () async {
-              final response = await addToCart(widget.product);
-              log(
-                "Adding to cart ${widget.product.id} status ${response.statusCode} ${response.body}",
-              );
+              ref
+                  .watch(shoppingCartNotifierProvider.notifier)
+                  .addToCart(widget.product, qty);
+              // final response = await addToCart(widget.product);
+              // log(
+              //   "Adding to cart ${widget.product.id} status ${response.statusCode} ${response.body}",
+              // );
             },
             child: const Text("Add to cart"),
           ),

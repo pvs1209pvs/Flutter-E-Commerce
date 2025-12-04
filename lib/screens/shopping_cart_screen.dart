@@ -19,7 +19,6 @@ class ShoppingCart extends ConsumerStatefulWidget {
 }
 
 class _ShoppingCartState extends ConsumerState<ShoppingCart> {
-  // List<ProductWithQuantity> cart = [];
 
   @override
   void initState() {
@@ -28,6 +27,7 @@ class _ShoppingCartState extends ConsumerState<ShoppingCart> {
 
   @override
   Widget build(BuildContext context) {
+    
     AsyncValue<List<ProductWithQuantity>> cart = ref.watch(
       shoppingCartNotifierProvider,
     );

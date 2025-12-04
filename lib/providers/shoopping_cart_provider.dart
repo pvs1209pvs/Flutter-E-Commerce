@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_e_commerce/models/product.dart';
 import 'package:flutter_e_commerce/models/product_cart.dart';
@@ -46,6 +47,15 @@ class ShoppingCartNotifier extends AsyncNotifier<List<ProductWithQuantity>> {
     }
 
     return prodsWithQuantity;
+  }
+
+  void addToCart(Product product, int qty) async{
+    log("Adding ${product.title} to cart with $qty quantity");
+    http.post(
+      Uri.parse("https://fakestoreapi.com/carts"),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(<String, dynamic>{"product": product, "qty": "$qty"}),
+    );
   }
 
   void updateQuantity(int id, int q) {
