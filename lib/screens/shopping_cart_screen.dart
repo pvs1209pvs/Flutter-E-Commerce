@@ -20,11 +20,6 @@ class ShoppingCart extends ConsumerStatefulWidget {
 
 class _ShoppingCartState extends ConsumerState<ShoppingCart> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     AsyncValue<List<ProductWithQuantity>> cart = ref.watch(
       shoppingCartNotifierProvider,
@@ -37,7 +32,16 @@ class _ShoppingCartState extends ConsumerState<ShoppingCart> {
       body: cart.when(
         data: (data) {
           if (data.isEmpty) {
-            return const Center(child: Text("Your shopping cart is empty"));
+            return Padding(
+              padding: const EdgeInsets.all(8),
+              child: const Center(
+                child: Text(
+                  maxLines: 100,
+                  style: TextStyle(fontSize: 24, color: Colors.black87),
+                  "Your shopping cart is empty",
+                ),
+              ),
+            );
           }
           return SingleChildScrollView(
             padding: const EdgeInsets.all(8),
@@ -49,20 +53,15 @@ class _ShoppingCartState extends ConsumerState<ShoppingCart> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         "Subtotal:",
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 24, color: Colors.black87),
                       ),
                       Text(
                         "\$$cartTotal",
                         textAlign: TextAlign.end,
                         style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 24,
                           color: Colors.black87,
                         ),
                       ),
@@ -73,8 +72,12 @@ class _ShoppingCartState extends ConsumerState<ShoppingCart> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) =>
-            const Center(child: Text("Something went wrong, please try again")),
+        error: (error, stack) => const Center(
+          child: Text(
+            style: TextStyle(fontSize: 36, color: Colors.black87),
+            "Something went wrong, please try again",
+          ),
+        ),
       ),
     );
     ;

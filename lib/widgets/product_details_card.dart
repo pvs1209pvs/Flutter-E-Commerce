@@ -18,7 +18,6 @@ class ProductDetailsCard extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailsCardState extends ConsumerState<ProductDetailsCard> {
-
   int qty = 1;
 
   @override
@@ -36,7 +35,7 @@ class _ProductDetailsCardState extends ConsumerState<ProductDetailsCard> {
           ),
           Text(
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               color: Colors.black87,
               fontWeight: FontWeight.w600,
             ),
@@ -52,7 +51,7 @@ class _ProductDetailsCardState extends ConsumerState<ProductDetailsCard> {
             children: <Widget>[
               const Text(
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.black87,
                 ),
@@ -65,14 +64,14 @@ class _ProductDetailsCardState extends ConsumerState<ProductDetailsCard> {
                 ),
                 child: IconButton(
                   onPressed: () => setState(() {
-                    qty = max(1, qty-1);
+                    qty = max(1, qty - 1);
                   }),
                   icon: const Icon(Icons.remove),
                 ),
               ),
               Text(
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.black87,
                 ),
@@ -87,7 +86,7 @@ class _ProductDetailsCardState extends ConsumerState<ProductDetailsCard> {
                   onPressed: () => setState(() {
                     qty++;
                   }),
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                 ),
               ),
             ],
@@ -105,10 +104,6 @@ class _ProductDetailsCardState extends ConsumerState<ProductDetailsCard> {
               ref
                   .watch(shoppingCartNotifierProvider.notifier)
                   .addToCart(widget.product, qty);
-              // final response = await addToCart(widget.product);
-              // log(
-              //   "Adding to cart ${widget.product.id} status ${response.statusCode} ${response.body}",
-              // );
             },
             child: const Text("Add to cart"),
           ),

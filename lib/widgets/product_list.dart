@@ -28,7 +28,12 @@ class _ProductsListState extends ConsumerState<ProductsList> {
           builder: (context, constrains) {
             return allProducts.when(
               data: (data) => data.isEmpty
-                  ? Text("No products found")
+                  ? const Center(
+                      child: Text(
+                        style: TextStyle(fontSize: 24, color: Colors.black87),
+                        "No products found",
+                      ),
+                    )
                   : GridView.builder(
                       cacheExtent: MediaQuery.of(context).size.height * 1,
                       gridDelegate:
