@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/providers/products_provider.dart';
 import 'package:flutter_e_commerce/widgets/category_chip.dart';
 import 'package:flutter_e_commerce/models/product.dart';
+import 'package:flutter_e_commerce/widgets/custom_search.dart';
 import 'package:flutter_e_commerce/widgets/product_list.dart';
 import 'package:flutter_e_commerce/widgets/search.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +27,7 @@ class _HomeState extends ConsumerState<Home> {
         margin: const EdgeInsets.all(8),
         child: Column(
           spacing: 8,
-          children: <Widget>[ CategoryChip(), ProductsList()],
+          children: <Widget>[MySeach(), CategoryChip(), ProductsList()],
         ),
       ),
     );

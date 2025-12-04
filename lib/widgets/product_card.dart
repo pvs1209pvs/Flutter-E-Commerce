@@ -18,7 +18,7 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                flex: 80,
+                // flex: 80,
                 child: Center(
                   child: CachedNetworkImage(
                     imageUrl: product.imageUrl,
@@ -27,23 +27,17 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                flex: 10,
-                child: Text(
-                  style: const TextStyle(fontSize: 18, color: Colors.black87),
-                  product.title,
-                ),
+              Text(
+                style: const TextStyle(fontSize: 18, color: Colors.black87),
+                product.title,
               ),
-              Expanded(
-                flex: 10,
-                child: Text(
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  "\$${product.price}",
+              Text(
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w600,
                 ),
+                "\$${product.price}",
               ),
             ],
           ),
