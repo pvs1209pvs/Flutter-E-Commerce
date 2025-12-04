@@ -41,14 +41,17 @@ class ProductNotifier extends AsyncNotifier<List<Product>> {
   @override
   FutureOr<List<Product>> build() async {
     Uri uri = Uri.parse("https://fakestoreapi.com/products");
+
     http.Response response = await http.get(uri);
+
     var body = jsonDecode(response.body) as List<dynamic>;
     var result = body.map((item) => Product.fromJson(item)).toList();
     List<Product> l = [];
     l.addAll(result);
     l.addAll(result);
     l.addAll(result);
-    l[0].title = "sfdsfdssfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdaffffffffffffffffffffffffffsdafffffffffffffffffffffffff";
+    l[0].title =
+        "sfdsfdssfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdafffffffffffffffffffffffffsfdsfdsfsdaffffffffffffffffffffffffffsdafffffffffffffffffffffffff";
     return l;
   }
 }
@@ -58,28 +61,33 @@ final productProvider = AsyncNotifierProvider<ProductNotifier, List<Product>>(
 );
 
 final filterProd = Provider<AsyncValue<List<Product>>>((ref) {
-  final searchRef = ref.watch(searchQueryNotifierProvider);
+  final searchQuery = ref.watch(searchQueryNotifierProvider);
   final categoryQuery = ref.watch(categoryQueryNotifierProvider);
-  log("search query $searchRef");
+  log("search query $searchQuery");
   log("category query $categoryQuery");
-  final filteredProducts = ref.watch(productProvider).whenData((cb) {
-    if ((searchRef == null || searchRef.isEmpty) &&
-        (categoryQuery == null || categoryQuery == "All")) {
-      log("returning original");
-      return cb;
-    } else {
-      return cb
+
+  return ref.watch(productProvider).whenData((cb) {
+    var result = cb;
+
+    log("products length ${result.length}");
+
+    if (searchQuery != null && searchQuery.isNotEmpty) {
+      result = result
           .where(
-            (test) =>
-                test.title.toLowerCase().contains(
-                  searchRef.toString().toLowerCase(),
-                ) ||
-                test.category.toLowerCase().contains(
-                  categoryQuery.toString().toLowerCase(),
-                ),
+            (p) => p.title.toLowerCase().contains(searchQuery.toLowerCase()),
           )
           .toList();
     }
+
+    if (categoryQuery != null && categoryQuery != "All") {
+      result = result
+          .where(
+            (p) =>
+                p.category.toLowerCase().contains(categoryQuery.toLowerCase()),
+          )
+          .toList();
+    }
+
+    return result;
   });
-  return filteredProducts;
 });

@@ -21,7 +21,7 @@ class _MySeachState extends ConsumerState<MySeach> {
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.search),
         border: OutlineInputBorder(),
-        hintText: 'Enter a search term',
+        hintText: "Search for products",
       ),
     );
   }

@@ -35,6 +35,8 @@ class _CategoryChipState extends ConsumerState<CategoryChip> {
                 ref
                     .read(categoryQueryNotifierProvider.notifier)
                     .updateQuery(selected ? chipsNames[index] : null);
+                ref.invalidate(filterProd);
+
                 setState(() {
                   _value = selected ? index : null;
                 });

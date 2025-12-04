@@ -19,22 +19,38 @@ class _ProductsListState extends ConsumerState<ProductsList> {
   Widget build(BuildContext context) {
     AsyncValue<List<Product>> allProducts = ref.watch(filterProd);
 
-    return Expanded(child: 
-      allProducts.when(
-      data: (data) => GridView.builder(
-        cacheExtent: MediaQuery.of(context).size.height * 1,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        itemCount: data.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ProductCard(product: data[index]);
+    return Expanded(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          ref.invalidate(productProvider);
         },
+        child: allProducts.when(
+          data: (data) => GridView.builder(
+            cacheExtent: MediaQuery.of(context).size.height * 1,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            itemCount: data.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ProductCard(product: data[index]);
+            },
+          ),
+          error: (error, stackTrace) => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height - 100,
+              child: Center(child: Text(error.toString())),
+            ),
+          ),
+          loading: () => SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height - 100,
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+          ),
+        ),
       ),
-      error: (error, stackTrace) => Center(child: Text("error")),
-      loading: () => Center(child: CircularProgressIndicator()),
-    )
     );
-
   }
 }
