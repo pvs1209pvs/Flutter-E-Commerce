@@ -27,16 +27,19 @@ class _ProductsListState extends ConsumerState<ProductsList> {
         child: LayoutBuilder(
           builder: (context, constrains) {
             return allProducts.when(
-              data: (data) => GridView.builder(
-                cacheExtent: MediaQuery.of(context).size.height * 1,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductCard(product: data[index]);
-                },
-              ),
+              data: (data) => data.isEmpty
+                  ? Text("No products found")
+                  : GridView.builder(
+                      cacheExtent: MediaQuery.of(context).size.height * 1,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                          ),
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductCard(product: data[index]);
+                      },
+                    ),
               error: (error, stackTrace) => SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: SizedBox(

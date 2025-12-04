@@ -28,10 +28,14 @@ class _ShoppingCartItemState extends State<ShoppingCartItem> {
       child: Row(
         spacing: 8,
         children: <Widget>[
-          CachedNetworkImage(
-            imageUrl: widget.product.product.imageUrl,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+          SizedBox(
+            width: 100,
+            height: 100,
+            child: CachedNetworkImage(
+              imageUrl: widget.product.product.imageUrl,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
           ),
           Expanded(
             child: Column(
@@ -40,6 +44,8 @@ class _ShoppingCartItemState extends State<ShoppingCartItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black87,
@@ -48,8 +54,11 @@ class _ShoppingCartItemState extends State<ShoppingCartItem> {
                   widget.product.product.title,
                 ),
                 Text(
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                  "\$${widget.product.product.price*qty}",
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  "\$${widget.product.product.price * qty}",
                 ),
                 Container(
                   margin: const EdgeInsets.all(8),
