@@ -6,87 +6,48 @@ import 'package:flutter_e_commerce/models/product.dart';
 import 'package:flutter_e_commerce/models/product_cart.dart';
 import 'package:flutter_e_commerce/models/product_cart_saved.dart';
 import 'package:flutter_e_commerce/models/product_with_quantity.dart';
+import 'package:flutter_e_commerce/providers/shoopping_cart_provider.dart';
 import 'package:flutter_e_commerce/widgets/shopping_cart_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-class ShoppingCart extends StatefulWidget {
+class ShoppingCart extends ConsumerStatefulWidget {
   const ShoppingCart({super.key});
 
   @override
-  State<ShoppingCart> createState() => _ShoppingCartState();
+  ConsumerState<ShoppingCart> createState() => _ShoppingCartState();
 }
 
-class _ShoppingCartState extends State<ShoppingCart> {
-  List<ProductWithQuantity> cart = [];
-
-  void fetchCartItems() async {
-    // get id of product in cart
-    http.Response response = await http.get(
-      Uri.parse("https://fakestoreapi.com/carts/1"),
-    );
-
-    // products from id
-    var productsInCart = ProductCart.fromJson(
-      jsonDecode(response.body),
-    ).products;
-
-    var products = productsInCart
-        .map(
-          (productCartSaved) => http.get(
-            Uri.parse(
-              "https://fakestoreapi.com/products/${productCartSaved.productId}",
-            ),
-          ),
-        )
-        .toList();
-
-    var temp = (await Future.wait(
-      products,
-    )).map((response) => Product.fromJson(jsonDecode(response.body))).toList();
-
-    List<ProductWithQuantity> prodsWithQuantity = [];
-
-    for (var i = 0; i < products.length; i++) {
-      prodsWithQuantity.add(
-        ProductWithQuantity(
-          product: temp[i],
-          quantity: productsInCart[i].quantity!,
-        ),
-      );
-    }
-
-    setState(() {
-      cart = prodsWithQuantity;
-    });
-  }
-
-  double subtotal() {
-    double total = 0.0;
-
-    for (final item in cart) {
-      total += item.quantity * item.product.price;
-    }
-    return total;
-  }
+class _ShoppingCartState extends ConsumerState<ShoppingCart> {
+  // List<ProductWithQuantity> cart = [];
 
   @override
   void initState() {
     super.initState();
-    fetchCartItems();
   }
 
   @override
   Widget build(BuildContext context) {
+    AsyncValue<List<ProductWithQuantity>> cart = ref.watch(
+      shoppingCartNotifierProvider,
+    );
+
+    var cartTotal = ref.watch(cartTotalProvider);
+
     return Scaffold(
       appBar: AppBar(title: Text("Cart")),
       body: ListView(
         children: <Widget>[
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: cart.length,
-            itemBuilder: (context, index) {
-              return ShoppingCartItem(product: cart[index]);
-            },
+          cart.when(
+            data: (data) => ListView.builder(
+              shrinkWrap: true,
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ShoppingCartItem(product: data[index]);
+              },
+            ),
+            error: (error, stackStack) => Text(error.toString()),
+            loading: () => CircularProgressIndicator(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +70,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
                   ),
-                  "\$${subtotal()}",
+                  "\$$cartTotal",
                 ),
               ),
             ],

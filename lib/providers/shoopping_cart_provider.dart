@@ -48,16 +48,16 @@ class ShoppingCartNotifier extends AsyncNotifier<List<ProductWithQuantity>> {
     return prodsWithQuantity;
   }
 
-  // void updateQuantity(int id, int q) {
-  //   state = state.whenData((items) {
-  //     return items.map((item) {
-  //       if (item.product.id == id) {
-  //         return ProductWithQuantity(quantity: q, product: item.product);
-  //       }
-  //       return item;
-  //     }).toList();
-  //   });
-  // }
+  void updateQuantity(int id, int q) {
+    state = state.whenData((items) {
+      return items.map((item) {
+        if (item.product.id == id) {
+          return ProductWithQuantity(quantity: q, product: item.product);
+        }
+        return item;
+      }).toList();
+    });
+  }
 }
 
 final shoppingCartNotifierProvider =
@@ -66,12 +66,12 @@ final shoppingCartNotifierProvider =
     );
 
 final cartTotalProvider = Provider<double>((ref) {
-  final cartProducts = ref.watch(shoppingCartNotifierProvider);
-
-  return cartProducts.maybeWhen(
-    data: (state) => state
-        .map((prod) => prod.product.price * prod.quantity)
-        .fold(0.0, (prev, value) => prev + value),
-    orElse: () => 0.0,
-  );
+  return ref
+      .watch(shoppingCartNotifierProvider)
+      .maybeWhen(
+        data: (state) => state
+            .map((prod) => prod.product.price * prod.quantity)
+            .fold(0.0, (prev, value) => prev + value),
+        orElse: () => 0.0,
+      );
 });
